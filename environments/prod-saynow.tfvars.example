@@ -1,0 +1,9 @@
+aws_region              = "ap-northeast-2"
+project_name            = "saynow"
+environment             = "prod"
+instance_type           = "t3.micro"
+app_port                = 8080
+app_allowed_cidr_blocks = ["0.0.0.0/0"]
+ssh_allowed_cidr_blocks = []
+root_volume_size        = 8
+ssh_public_key          = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExamplePublicKeyForDocumentationOnly saynow-prod-deploy"

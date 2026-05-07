@@ -169,7 +169,7 @@ git commit -m "main feat: Terraform 기본 구조 추가"
 - Create: `data.tf`
 - Create: `environments/prod-saynow.tfvars.example`
 
-- [ ] **Step 1: Create `variables.tf`**
+- [x] **Step 1: Create `variables.tf`**
 
 ```hcl
 variable "aws_region" {
@@ -232,7 +232,7 @@ variable "root_volume_size" {
 }
 ```
 
-- [ ] **Step 2: Create `data.tf`**
+- [x] **Step 2: Create `data.tf`**
 
 ```hcl
 data "aws_vpc" "default" {
@@ -272,7 +272,7 @@ data "aws_ami" "al2023" {
 }
 ```
 
-- [ ] **Step 3: Create `environments/prod-saynow.tfvars.example`**
+- [x] **Step 3: Create `environments/prod-saynow.tfvars.example`**
 
 ```hcl
 aws_region              = "ap-northeast-2"
@@ -286,7 +286,7 @@ root_volume_size        = 8
 ssh_public_key          = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExamplePublicKeyForDocumentationOnly saynow-prod-deploy"
 ```
 
-- [ ] **Step 4: Create local untracked `environments/prod-saynow.tfvars`**
+- [x] **Step 4: Create local untracked `environments/prod-saynow.tfvars`**
 
 Run:
 
@@ -314,7 +314,7 @@ EOF
 
 Expected: `git status --short` does not show `environments/prod-saynow.tfvars` because `*.tfvars` is ignored.
 
-- [ ] **Step 5: Format and commit**
+- [x] **Step 5: Format and commit**
 
 ```bash
 terraform fmt -recursive
