@@ -466,7 +466,7 @@ git commit -m "main feat: EC2 SSM IAM 역할 추가"
 - Create: `main.tf`
 - Create: `outputs.tf`
 
-- [ ] **Step 1: Create `user_data.sh.tftpl`**
+- [x] **Step 1: Create `user_data.sh.tftpl`**
 
 ```bash
 #!/bin/bash
@@ -505,7 +505,7 @@ systemctl daemon-reload
 systemctl enable ${service_name}
 ```
 
-- [ ] **Step 2: Create `main.tf`**
+- [x] **Step 2: Create `main.tf`**
 
 ```hcl
 resource "aws_key_pair" "deploy" {
@@ -549,7 +549,7 @@ resource "aws_instance" "backend" {
 }
 ```
 
-- [ ] **Step 3: Create `outputs.tf`**
+- [x] **Step 3: Create `outputs.tf`**
 
 ```hcl
 output "backend_instance_id" {
@@ -583,7 +583,7 @@ output "backend_service_name" {
 }
 ```
 
-- [ ] **Step 4: Run local validation**
+- [x] **Step 4: Run local validation**
 
 ```bash
 terraform fmt -recursive
@@ -592,7 +592,7 @@ AWS_PROFILE=prod-saynow terraform validate
 
 Expected: `terraform validate` prints `Success! The configuration is valid.`
 
-- [ ] **Step 5: Commit EC2 resources**
+- [x] **Step 5: Commit EC2 resources**
 
 ```bash
 git add main.tf outputs.tf user_data.sh.tftpl
