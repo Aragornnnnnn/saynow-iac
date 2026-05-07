@@ -708,7 +708,7 @@ Type       t3.micro
 **Files:**
 - Create: `docs/backend-deploy-github-actions.md`
 
-- [ ] **Step 1: Create deployment guide**
+- [x] **Step 1: Create deployment guide**
 
 ````markdown
 # Backend GitHub Actions Deployment to EC2
@@ -783,7 +783,7 @@ ssh -i ~/.ssh/saynow-prod-deploy ec2-user@"$(terraform output -raw backend_publi
 ```
 ````
 
-- [ ] **Step 2: Commit deployment guide**
+- [x] **Step 2: Commit deployment guide**
 
 ```bash
 git add docs/backend-deploy-github-actions.md
