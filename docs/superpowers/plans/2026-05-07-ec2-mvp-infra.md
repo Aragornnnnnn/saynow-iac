@@ -45,7 +45,7 @@
 - Create: `providers.tf`
 - Create: `locals.tf`
 
-- [ ] **Step 1: Create `.gitignore`**
+- [x] **Step 1: Create `.gitignore`**
 
 ```gitignore
 .terraform/
@@ -65,7 +65,7 @@ override.tf.json
 .DS_Store
 ```
 
-- [ ] **Step 2: Create `README.md`**
+- [x] **Step 2: Create `README.md`**
 
 ````markdown
 # saynow-iac
@@ -101,7 +101,7 @@ Create `environments/prod-saynow.tfvars` with a real deploy public key before ru
 Do not commit real `*.tfvars`, Terraform state, or plan files. Commit `.terraform.lock.hcl` after `terraform init`.
 ````
 
-- [ ] **Step 3: Create `versions.tf`**
+- [x] **Step 3: Create `versions.tf`**
 
 ```hcl
 terraform {
@@ -116,7 +116,7 @@ terraform {
 }
 ```
 
-- [ ] **Step 4: Create `locals.tf`**
+- [x] **Step 4: Create `locals.tf`**
 
 ```hcl
 locals {
@@ -131,7 +131,7 @@ locals {
 }
 ```
 
-- [ ] **Step 5: Create `providers.tf`**
+- [x] **Step 5: Create `providers.tf`**
 
 ```hcl
 provider "aws" {
@@ -143,7 +143,7 @@ provider "aws" {
 }
 ```
 
-- [ ] **Step 6: Format scaffold files**
+- [x] **Step 6: Format scaffold files**
 
 Run:
 
@@ -153,7 +153,7 @@ terraform fmt -recursive
 
 Expected: command exits `0`; no Terraform validation yet because variables and resources are not complete.
 
-- [ ] **Step 7: Commit scaffold**
+- [x] **Step 7: Commit scaffold**
 
 ```bash
 git add .gitignore README.md versions.tf providers.tf locals.tf
