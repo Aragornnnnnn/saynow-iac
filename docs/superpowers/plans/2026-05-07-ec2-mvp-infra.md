@@ -401,7 +401,7 @@ git commit -m "main feat: EC2 보안 그룹 추가"
 **Files:**
 - Create: `iam.tf`
 
-- [ ] **Step 1: Create `iam.tf`**
+- [x] **Step 1: Create `iam.tf`**
 
 ```hcl
 data "aws_iam_policy_document" "ec2_assume_role" {
@@ -439,7 +439,7 @@ resource "aws_iam_instance_profile" "backend" {
 }
 ```
 
-- [ ] **Step 2: Validate IAM configuration**
+- [x] **Step 2: Validate IAM configuration**
 
 Run:
 
@@ -450,7 +450,7 @@ AWS_PROFILE=prod-saynow terraform validate
 
 Expected: `terraform validate` prints `Success! The configuration is valid.`
 
-- [ ] **Step 3: Commit IAM resources**
+- [x] **Step 3: Commit IAM resources**
 
 ```bash
 git add iam.tf
