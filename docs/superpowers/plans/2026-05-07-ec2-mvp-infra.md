@@ -228,7 +228,7 @@ variable "app_allowed_cidr_blocks" {
 variable "root_volume_size" {
   description = "Root EBS volume size in GiB."
   type        = number
-  default     = 8
+  default     = 30
 }
 ```
 
@@ -282,7 +282,7 @@ instance_type           = "t3.micro"
 app_port                = 8080
 app_allowed_cidr_blocks = ["0.0.0.0/0"]
 ssh_allowed_cidr_blocks = []
-root_volume_size        = 8
+root_volume_size        = 30
 ssh_public_key          = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExamplePublicKeyForDocumentationOnly saynow-prod-deploy"
 ```
 
@@ -307,7 +307,7 @@ instance_type           = "t3.micro"
 app_port                = 8080
 app_allowed_cidr_blocks = ["0.0.0.0/0"]
 ssh_allowed_cidr_blocks = []
-root_volume_size        = 8
+root_volume_size        = 30
 ssh_public_key          = "$PUBLIC_KEY"
 EOF
 ```
@@ -657,7 +657,7 @@ Confirm from the plan:
 
 ```text
 instance_type = "t3.micro"
-volume_size   = 8
+volume_size   = 30
 volume_type   = "gp3"
 http_tokens   = "required"
 from_port     = 8080
