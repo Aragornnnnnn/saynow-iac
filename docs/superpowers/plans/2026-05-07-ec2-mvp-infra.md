@@ -673,7 +673,7 @@ to_port   = 22
 
 If `cidr_blocks = ["0.0.0.0/0"]` appears for port 22, stop and replace `ssh_allowed_cidr_blocks` with a narrower CIDR before apply.
 
-- [ ] **Step 5: Apply after the double check passes**
+- [x] **Step 5: Apply after the double check passes**
 
 Run:
 
@@ -683,7 +683,7 @@ AWS_PROFILE=prod-saynow terraform apply prod-saynow.tfplan
 
 Expected: Terraform creates the EC2 MVP resources and prints `backend_public_ip`, `backend_app_url`, and `backend_ssh_command`.
 
-- [ ] **Step 6: Verify EC2 is reachable through AWS APIs**
+- [x] **Step 6: Verify EC2 is reachable through AWS APIs**
 
 Run:
 
