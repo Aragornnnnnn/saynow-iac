@@ -606,7 +606,7 @@ git commit -m "main feat: Spring 백엔드 EC2 추가"
 **Files:**
 - Read: all Terraform files
 
-- [ ] **Step 1: Confirm AWS identity**
+- [x] **Step 1: Confirm AWS identity**
 
 Run:
 
@@ -622,7 +622,7 @@ Expected account:
 }
 ```
 
-- [ ] **Step 2: Initialize Terraform**
+- [x] **Step 2: Initialize Terraform**
 
 Run:
 
@@ -632,7 +632,7 @@ AWS_PROFILE=prod-saynow terraform init
 
 Expected: provider installation completes and Terraform reports successful initialization.
 
-- [ ] **Step 3: Run Terraform plan**
+- [x] **Step 3: Run Terraform plan**
 
 Run:
 
@@ -651,7 +651,7 @@ aws_key_pair.deploy
 aws_instance.backend
 ```
 
-- [ ] **Step 4: Double check free-tier and exposure constraints**
+- [x] **Step 4: Double check free-tier and exposure constraints**
 
 Confirm from the plan:
 
