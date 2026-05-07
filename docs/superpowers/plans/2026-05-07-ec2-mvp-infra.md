@@ -329,7 +329,7 @@ git commit -m "main feat: prod EC2 변수와 데이터 소스 추가"
 **Files:**
 - Create: `security_group.tf`
 
-- [ ] **Step 1: Create `security_group.tf`**
+- [x] **Step 1: Create `security_group.tf`**
 
 ```hcl
 resource "aws_security_group" "backend" {
@@ -375,7 +375,7 @@ resource "aws_security_group" "backend" {
 }
 ```
 
-- [ ] **Step 2: Validate security group configuration**
+- [x] **Step 2: Validate security group configuration**
 
 Run:
 
@@ -387,7 +387,7 @@ AWS_PROFILE=prod-saynow terraform validate
 
 Expected: `terraform validate` prints `Success! The configuration is valid.`
 
-- [ ] **Step 3: Commit security group**
+- [x] **Step 3: Commit security group**
 
 ```bash
 git add security_group.tf .terraform.lock.hcl
