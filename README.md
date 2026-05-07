@@ -29,3 +29,9 @@ AWS_PROFILE=prod-saynow terraform apply prod-saynow.tfplan
 Create `environments/prod-saynow.tfvars` with a real deploy public key before running `terraform plan`.
 
 Do not commit real `*.tfvars`, Terraform state, or plan files. Commit `.terraform.lock.hcl` after `terraform init`.
+
+## Elastic IP
+
+The backend EC2 instance uses an Elastic IP so `backend_public_ip`, `backend_public_dns`, `backend_app_url`, and `backend_ssh_command` stay stable across instance stop/start cycles.
+
+Do not leave allocated Elastic IPs unattached. AWS charges for public IPv4 usage, and idle Elastic IPs can create avoidable cost.

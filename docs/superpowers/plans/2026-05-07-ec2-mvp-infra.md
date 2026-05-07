@@ -792,6 +792,54 @@ git commit -m "main docs: 백엔드 EC2 배포 가이드 추가"
 
 ---
 
+### Task 8: Elastic IP Stabilization
+
+**Files:**
+- Update: `main.tf`
+- Update: `outputs.tf`
+- Update: `README.md`
+- Update: `docs/backend-deploy-github-actions.md`
+
+- [x] **Step 1: Add Elastic IP resource**
+
+Add an `aws_eip.backend` resource associated with `aws_instance.backend`.
+
+- [x] **Step 2: Update outputs and docs**
+
+Use the Elastic IP for `backend_public_ip`, `backend_public_dns`, `backend_app_url`, and `backend_ssh_command`. Document that idle Elastic IPs should not be left unattached.
+
+- [x] **Step 3: Validate and plan**
+
+Run:
+
+```bash
+terraform fmt -recursive
+AWS_PROFILE=prod-saynow terraform validate
+AWS_PROFILE=prod-saynow terraform plan -var-file=environments/prod-saynow.tfvars -out=prod-saynow.tfplan
+```
+
+Expected: plan adds only `aws_eip.backend`.
+
+- [x] **Step 4: Apply and verify**
+
+Run:
+
+```bash
+AWS_PROFILE=prod-saynow terraform apply prod-saynow.tfplan
+AWS_PROFILE=prod-saynow aws ec2 describe-addresses --filters Name=allocation-id,Values="$(terraform output -raw backend_eip_allocation_id)"
+```
+
+Expected: Elastic IP is associated with `i-0fe122592b59dd3cb`.
+
+- [x] **Step 5: Commit Elastic IP change**
+
+```bash
+git add main.tf outputs.tf README.md docs/backend-deploy-github-actions.md docs/superpowers/plans/2026-05-07-ec2-mvp-infra.md
+git commit -m "feat: 백엔드 EC2 탄력적 IP 추가"
+```
+
+---
+
 ## Out of Scope for MVP
 
 - ALB, HTTPS 인증서, Route 53 도메인

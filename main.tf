@@ -37,3 +37,12 @@ resource "aws_instance" "backend" {
     Name = "${local.name_prefix}-backend"
   }
 }
+
+resource "aws_eip" "backend" {
+  domain   = "vpc"
+  instance = aws_instance.backend.id
+
+  tags = {
+    Name = "${local.name_prefix}-backend-eip"
+  }
+}

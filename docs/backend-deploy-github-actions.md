@@ -7,6 +7,8 @@ The EC2 instance created by this IAC repository runs a systemd service named `sa
 - `EC2_HOST`: value from `terraform output -raw backend_public_ip`
 - `EC2_SSH_PRIVATE_KEY`: private key matching `ssh_public_key` in `environments/prod-saynow.tfvars`
 
+`EC2_HOST` is backed by an Elastic IP, so it should stay stable unless the Terraform Elastic IP resource is replaced or destroyed.
+
 ## SSH access requirement
 
 This repository defaults `ssh_allowed_cidr_blocks` to an empty list, so port `22` is not open after the initial apply.
