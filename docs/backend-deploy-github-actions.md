@@ -7,6 +7,12 @@ The EC2 instance created by this IAC repository runs a systemd service named `sa
 - `EC2_HOST`: value from `terraform output -raw backend_public_ip`
 - `EC2_SSH_PRIVATE_KEY`: private key matching `ssh_public_key` in `environments/prod-saynow.tfvars`
 
+## SSH access requirement
+
+This repository defaults `ssh_allowed_cidr_blocks` to an empty list, so port `22` is not open after the initial apply.
+
+Before using the SSH deployment workflow, add an intentionally scoped CIDR block to `environments/prod-saynow.tfvars` and run `terraform plan` and `terraform apply` again. Do not open SSH to `0.0.0.0/0`.
+
 ## Workflow
 
 Create `.github/workflows/deploy-prod.yml` in the backend repository:
