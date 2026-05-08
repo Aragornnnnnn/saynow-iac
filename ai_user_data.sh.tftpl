@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euo pipefail
+
+dnf update -y
+dnf install -y python3.11 python3.11-pip awscli
+
+id saynow >/dev/null 2>&1 || useradd --system --home-dir /opt/saynow --shell /sbin/nologin saynow
+
+mkdir -p /opt/saynow
+chown saynow:saynow /opt/saynow
+chmod 755 /opt/saynow
+touch /opt/saynow/.env.prod
+chown root:saynow /opt/saynow/.env.prod
+chmod 640 /opt/saynow/.env.prod
+
+python3.11 -m venv /opt/saynow/venv
+chown -R saynow:saynow /opt/saynow/venv
+
+cat >/etc/systemd/system/${service_name}.service <<SERVICE
+[Unit]
+Description=Saynow FastAPI AI backend
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=saynow
+Group=saynow
+WorkingDirectory=/opt/saynow
+EnvironmentFile=-/opt/saynow/.env.prod
+ExecStart=/opt/saynow/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port ${app_port}
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+SERVICE
+
+systemctl daemon-reload
+systemctl enable ${service_name}

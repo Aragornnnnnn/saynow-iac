@@ -13,3 +13,4 @@ override.tf.json
 *.tfvars
 *.tfvars.json
 .DS_Store
+.omc/

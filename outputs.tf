@@ -47,3 +47,38 @@ output "backend_github_actions_deploy_role_arn" {
   description = "GitHub Actions OIDC role ARN for backend deployment."
   value       = aws_iam_role.github_actions_backend_deploy.arn
 }
+
+output "ai_instance_id" {
+  description = "EC2 instance id for the Saynow AI backend."
+  value       = aws_instance.ai_backend.id
+}
+
+output "ai_public_ip" {
+  description = "Elastic IPv4 address for the Saynow AI backend EC2 instance."
+  value       = aws_eip.ai_backend.public_ip
+}
+
+output "ai_app_url" {
+  description = "Direct URL for the FastAPI AI backend."
+  value       = "http://${aws_eip.ai_backend.public_ip}:${var.app_port}"
+}
+
+output "ai_ssh_command" {
+  description = "SSH command for AI EC2 access when the caller is allowed by ssh_allowed_cidr_blocks."
+  value       = "ssh -i ~/.ssh/saynow-prod-deploy ec2-user@${aws_eip.ai_backend.public_ip}"
+}
+
+output "ai_service_name" {
+  description = "systemd service name used for AI backend deployments."
+  value       = local.ai_service_name
+}
+
+output "ai_security_group_id" {
+  description = "Security group id for the Saynow AI backend EC2 instance."
+  value       = aws_security_group.ai_backend.id
+}
+
+output "ai_github_actions_deploy_role_arn" {
+  description = "GitHub Actions OIDC role ARN for AI backend deployment."
+  value       = aws_iam_role.github_actions_ai_deploy.arn
+}
