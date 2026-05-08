@@ -13,6 +13,11 @@ The EC2 instance created by this IAC repository runs a systemd service named `sa
 
 Production variables are stored in AWS Systems Manager Parameter Store under `/saynow/prod`.
 
+Environment paths are separated by environment:
+
+- Production: `/saynow/prod`
+- Development: `/saynow/dev`
+
 Required parameters:
 
 - `/saynow/prod/DB_URL`
@@ -21,7 +26,7 @@ Required parameters:
 
 Use `SecureString` for all three values. Do not put the plaintext values in this repository, Terraform files, workflow YAML, or chat.
 
-The EC2 instance role can read parameters under `/saynow/prod/*`. The deployment workflow does not need AWS access keys for this; it fetches parameters from inside the EC2 instance using the instance profile.
+The production EC2 instance role can read parameters under `/saynow/prod/*`. The deployment workflow does not need AWS access keys for this; it fetches parameters from inside the EC2 instance using the instance profile.
 
 ## SSH access requirement
 

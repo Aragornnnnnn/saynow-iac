@@ -38,7 +38,9 @@ Do not leave allocated Elastic IPs unattached. AWS charges for public IPv4 usage
 
 ## Production Environment Variables
 
-Production application environment variables are stored in AWS Systems Manager Parameter Store under `/saynow/prod`.
+Application environment variables are stored in AWS Systems Manager Parameter Store using the `/saynow/{environment}` path pattern.
+
+Current production parameters use `/saynow/prod`. Future development parameters should use `/saynow/dev`.
 
 Use `SecureString` for secrets and keep the standard tier unless a value is larger than the standard tier limit.
 
