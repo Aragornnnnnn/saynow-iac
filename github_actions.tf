@@ -4,10 +4,10 @@ variable "github_actions_backend_repository" {
   default     = "Aragornnnnnn/saynow-be"
 }
 
-variable "github_actions_backend_branch" {
-  description = "GitHub branch allowed to assume the backend deployment role."
+variable "github_actions_backend_environment" {
+  description = "GitHub environment allowed to assume the backend deployment role."
   type        = string
-  default     = "main"
+  default     = "prod"
 }
 
 resource "aws_iam_openid_connect_provider" "github_actions" {
@@ -45,7 +45,7 @@ data "aws_iam_policy_document" "github_actions_backend_deploy_assume_role" {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
       values = [
-        "repo:${var.github_actions_backend_repository}:ref:refs/heads/${var.github_actions_backend_branch}",
+        "repo:${var.github_actions_backend_repository}:environment:${var.github_actions_backend_environment}",
       ]
     }
   }

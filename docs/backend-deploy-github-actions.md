@@ -41,6 +41,8 @@ This repository defaults `ssh_allowed_cidr_blocks` to an empty list, so port `22
 
 For GitHub-hosted runners, do not permanently open SSH to `0.0.0.0/0`. Their egress IPs are dynamic, so the safer pattern is to let the deployment workflow temporarily authorize the current runner public IP as `/32` before `ssh-keyscan`, then revoke the rule in an `always()` cleanup step.
 
+The backend deployment job uses the GitHub environment named `prod`. For that reason, the AWS OIDC trust policy allows the subject `repo:Aragornnnnnn/saynow-be:environment:prod`. Keep the GitHub `prod` environment deployment branch policy restricted to `main`.
+
 ## Workflow
 
 Create `.github/workflows/deploy-prod.yml` in the backend repository:
@@ -56,6 +58,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: prod
     timeout-minutes: 20
     permissions:
       contents: read
