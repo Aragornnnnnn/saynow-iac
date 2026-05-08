@@ -6,6 +6,8 @@ The EC2 instance created by this IAC repository runs a systemd service named `sa
 
 - `EC2_SSH_KEY`: private key matching `ssh_public_key` in `environments/prod-saynow.tfvars`
 
+`EC2_SSH_KEY` must contain the full OpenSSH private key, including the `-----BEGIN OPENSSH PRIVATE KEY-----` and `-----END OPENSSH PRIVATE KEY-----` lines. Do not use the public key or key fingerprint value.
+
 `EC2_HOST` is backed by an Elastic IP, so it should stay stable unless the Terraform Elastic IP resource is replaced or destroyed.
 
 ## Required GitHub Variables in the backend repository
@@ -106,6 +108,7 @@ jobs:
           mkdir -p ~/.ssh
           printf '%s\n' "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/saynow-prod-deploy
           chmod 600 ~/.ssh/saynow-prod-deploy
+          ssh-keygen -y -f ~/.ssh/saynow-prod-deploy >/dev/null
           ssh-keyscan -H "${{ vars.EC2_HOST }}" >> ~/.ssh/known_hosts
 
       - name: Upload jar
