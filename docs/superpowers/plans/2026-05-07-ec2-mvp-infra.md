@@ -904,6 +904,69 @@ git push origin main
 
 ---
 
+### Task 10: S3 Terraform Backend and Native Locking
+
+**Files:**
+- Create: `backend.tf`
+- Update: `README.md`
+- Update: `AGENTS.md`
+
+- [x] **Step 1: Bootstrap backend bucket**
+
+Create S3 bucket `saynow-prod-terraform-state-494873119837` in `ap-northeast-2` outside the root Terraform state.
+
+Enable:
+
+```text
+Versioning
+Default SSE-S3 encryption
+Public access block
+HTTPS-only bucket policy
+```
+
+- [x] **Step 2: Configure S3 backend**
+
+Use:
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket       = "saynow-prod-terraform-state-494873119837"
+    key          = "prod/saynow-iac/terraform.tfstate"
+    region       = "ap-northeast-2"
+    encrypt      = true
+    use_lockfile = true
+  }
+}
+```
+
+- [x] **Step 3: Migrate local state to S3**
+
+Run:
+
+```bash
+AWS_PROFILE=prod-saynow terraform init -migrate-state
+```
+
+- [x] **Step 4: Verify remote state and lockfile backend**
+
+Run:
+
+```bash
+AWS_PROFILE=prod-saynow terraform plan -var-file=environments/prod-saynow.tfvars
+AWS_PROFILE=prod-saynow aws s3api head-object --bucket saynow-prod-terraform-state-494873119837 --key prod/saynow-iac/terraform.tfstate
+```
+
+- [x] **Step 5: Commit and push backend change**
+
+```bash
+git add AGENTS.md README.md backend.tf docs/superpowers/plans/2026-05-07-ec2-mvp-infra.md
+git commit -m "chore: Terraform S3 backend 설정"
+git push origin main
+```
+
+---
+
 ## Out of Scope for MVP
 
 - ALB, HTTPS 인증서, Route 53 도메인

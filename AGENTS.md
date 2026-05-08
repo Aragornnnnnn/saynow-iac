@@ -27,6 +27,7 @@
 - Terraform 변경은 가능한 한 `terraform validate`와 `terraform plan`으로 검증한 뒤 보고한다.
 - production 인프라 작업은 `prod-saynow` AWS profile과 `ap-northeast-2` region 사용 여부를 확인한다.
 - 실제 `*.tfvars`, Terraform state, plan 파일, 비밀 값, 접근 키는 커밋하지 않는다.
+- production Terraform state는 S3 backend `saynow-prod-terraform-state-494873119837/prod/saynow-iac/terraform.tfstate`와 S3 native lockfile을 사용한다.
 - 애플리케이션 환경변수는 환경별 `/saynow/{environment}` 경로의 SSM Parameter Store `SecureString`으로 관리하고, 실제 secret 값을 Terraform 리소스로 만들지 않는다.
 - `terraform apply`, `terraform destroy`, 리소스 삭제/교체처럼 운영 인프라에 영향을 주는 작업은 실행 전에 사용자 확인을 받는다.
 

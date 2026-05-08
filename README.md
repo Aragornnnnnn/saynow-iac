@@ -30,6 +30,21 @@ Create `environments/prod-saynow.tfvars` with a real deploy public key before ru
 
 Do not commit real `*.tfvars`, Terraform state, or plan files. Commit `.terraform.lock.hcl` after `terraform init`.
 
+## Terraform Backend
+
+Terraform state is stored in S3 with native S3 lockfile-based locking.
+
+```text
+Bucket: saynow-prod-terraform-state-494873119837
+Key: prod/saynow-iac/terraform.tfstate
+Region: ap-northeast-2
+Lock file: prod/saynow-iac/terraform.tfstate.tflock
+```
+
+The backend bucket is bootstrapped outside this root Terraform state and has versioning, default encryption, public access block, and an HTTPS-only bucket policy enabled.
+
+Do not switch back to local state for production changes.
+
 ## Elastic IP
 
 The backend EC2 instance uses an Elastic IP so `backend_public_ip`, `backend_public_dns`, `backend_app_url`, and `backend_ssh_command` stay stable across instance stop/start cycles.
