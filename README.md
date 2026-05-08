@@ -1,22 +1,22 @@
 # saynow-iac
 
-Terraform infrastructure for the Saynow MVP.
+Saynow MVP 인프라를 관리하는 Terraform 저장소입니다.
 
-## AWS Profile
+## AWS 프로필
 
-Use the `prod-saynow` AWS profile for all production infrastructure commands.
+production 인프라 명령은 모두 `prod-saynow` AWS profile을 사용합니다.
 
 ```bash
 AWS_PROFILE=prod-saynow aws sts get-caller-identity
 ```
 
-Expected account:
+기대 계정:
 
 ```text
 494873119837
 ```
 
-## Local Terraform Flow
+## 로컬 Terraform 실행 흐름
 
 ```bash
 terraform fmt -recursive
@@ -26,13 +26,13 @@ AWS_PROFILE=prod-saynow terraform plan -var-file=environments/prod-saynow.tfvars
 AWS_PROFILE=prod-saynow terraform apply prod-saynow.tfplan
 ```
 
-Create `environments/prod-saynow.tfvars` with a real deploy public key before running `terraform plan`.
+`terraform plan` 실행 전 실제 배포용 public key를 넣은 `environments/prod-saynow.tfvars`를 준비해야 합니다.
 
-Do not commit real `*.tfvars`, Terraform state, or plan files. Commit `.terraform.lock.hcl` after `terraform init`.
+실제 `*.tfvars`, Terraform state, plan 파일은 커밋하지 않습니다. `terraform init` 후 생성되는 `.terraform.lock.hcl`은 커밋합니다.
 
 ## Terraform Backend
 
-Terraform state is stored in S3 with native S3 lockfile-based locking.
+Terraform state는 S3에 저장하고, locking은 S3 native lockfile을 사용합니다.
 
 ```text
 Bucket: saynow-prod-terraform-state-494873119837
@@ -41,23 +41,23 @@ Region: ap-northeast-2
 Lock file: prod/saynow-iac/terraform.tfstate.tflock
 ```
 
-The backend bucket is bootstrapped outside this root Terraform state and has versioning, default encryption, public access block, and an HTTPS-only bucket policy enabled.
+backend bucket은 이 루트 Terraform state 밖에서 bootstrap합니다. 현재 versioning, 기본 암호화, public access block, HTTPS-only bucket policy가 적용되어 있습니다.
 
-Do not switch back to local state for production changes.
+production 변경 작업에서 local state로 되돌리지 않습니다.
 
 ## Elastic IP
 
-The backend EC2 instance uses an Elastic IP so `backend_public_ip`, `backend_public_dns`, `backend_app_url`, and `backend_ssh_command` stay stable across instance stop/start cycles.
+백엔드 EC2 인스턴스는 Elastic IP를 사용합니다. 따라서 인스턴스를 stop/start해도 `backend_public_ip`, `backend_public_dns`, `backend_app_url`, `backend_ssh_command` 값이 안정적으로 유지됩니다.
 
-Do not leave allocated Elastic IPs unattached. AWS charges for public IPv4 usage, and idle Elastic IPs can create avoidable cost.
+할당된 Elastic IP를 미연결 상태로 방치하지 않습니다. AWS는 public IPv4 사용량에 과금하며, idle Elastic IP는 불필요한 비용을 만들 수 있습니다.
 
-## Production Environment Variables
+## Production 환경변수
 
-Application environment variables are stored in AWS Systems Manager Parameter Store using the `/saynow/{environment}` path pattern.
+애플리케이션 환경변수는 AWS Systems Manager Parameter Store에 `/saynow/{environment}` 경로 규칙으로 저장합니다.
 
-Current production parameters use `/saynow/prod`. Future development parameters should use `/saynow/dev`.
+현재 production parameter는 `/saynow/prod`를 사용합니다. 이후 development parameter는 `/saynow/dev`를 사용합니다.
 
-Use `SecureString` for secrets and keep the standard tier unless a value is larger than the standard tier limit.
+secret 값은 `SecureString`을 사용합니다. 값이 standard tier 제한보다 크지 않다면 standard tier를 유지합니다.
 
 ```bash
 AWS_PROFILE=prod-saynow aws ssm put-parameter \
@@ -82,4 +82,4 @@ AWS_PROFILE=prod-saynow aws ssm put-parameter \
   --overwrite
 ```
 
-Do not manage real secret values with Terraform. Terraform state can retain parameter values when `aws_ssm_parameter` resources are used.
+실제 secret 값은 Terraform으로 관리하지 않습니다. `aws_ssm_parameter` 리소스를 사용하면 Terraform state에 parameter 값이 남을 수 있습니다.
