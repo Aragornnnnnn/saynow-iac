@@ -56,3 +56,14 @@ variable "root_volume_size" {
   type        = number
   default     = 30
 }
+
+variable "parameter_store_path" {
+  description = "SSM Parameter Store path for Saynow production environment variables."
+  type        = string
+  default     = "/saynow/prod"
+
+  validation {
+    condition     = startswith(var.parameter_store_path, "/") && !endswith(var.parameter_store_path, "/")
+    error_message = "parameter_store_path must start with '/' and must not end with '/'."
+  }
+}

@@ -32,3 +32,8 @@ output "backend_eip_allocation_id" {
   description = "Elastic IP allocation id for the Saynow backend."
   value       = aws_eip.backend.allocation_id
 }
+
+output "backend_parameter_store_path" {
+  description = "SSM Parameter Store path used for production environment variables."
+  value       = var.parameter_store_path
+}

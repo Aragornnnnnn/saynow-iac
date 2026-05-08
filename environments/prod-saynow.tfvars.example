@@ -6,4 +6,5 @@ app_port                = 8080
 app_allowed_cidr_blocks = ["0.0.0.0/0"]
 ssh_allowed_cidr_blocks = []
 root_volume_size        = 30
+parameter_store_path    = "/saynow/prod"
 ssh_public_key          = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExamplePublicKeyForDocumentationOnly saynow-prod-deploy"

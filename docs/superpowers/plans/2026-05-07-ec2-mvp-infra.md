@@ -840,6 +840,70 @@ git commit -m "feat: 백엔드 EC2 탄력적 IP 추가"
 
 ---
 
+### Task 9: Parameter Store Environment Management
+
+**Files:**
+- Update: `data.tf`
+- Update: `variables.tf`
+- Update: `iam.tf`
+- Update: `user_data.sh.tftpl`
+- Update: `outputs.tf`
+- Update: `environments/prod-saynow.tfvars.example`
+- Update: `README.md`
+- Update: `docs/backend-deploy-github-actions.md`
+- Update: `AGENTS.md`
+
+- [x] **Step 1: Add Parameter Store path variable**
+
+Add `parameter_store_path` with the default `/saynow/prod`.
+
+- [x] **Step 2: Grant EC2 read-only access to the Parameter Store path**
+
+Attach an inline IAM policy to the backend EC2 role for:
+
+```text
+ssm:GetParameter
+ssm:GetParameters
+ssm:GetParametersByPath
+```
+
+Scope the resource to:
+
+```text
+arn:aws:ssm:ap-northeast-2:494873119837:parameter/saynow/prod/*
+```
+
+- [x] **Step 3: Configure systemd to read `/opt/saynow/.env.prod`**
+
+Add `EnvironmentFile=-/opt/saynow/.env.prod` to the backend systemd service template and create the file with restricted permissions in user data.
+
+- [x] **Step 4: Document Parameter Store workflow**
+
+Document the required `/saynow/prod` parameters and update the backend deployment workflow to fetch them on EC2 before restarting the service.
+
+- [x] **Step 5: Validate, plan, apply, and patch existing EC2**
+
+Run:
+
+```bash
+terraform fmt -recursive
+AWS_PROFILE=prod-saynow terraform validate
+AWS_PROFILE=prod-saynow terraform plan -var-file=environments/prod-saynow.tfvars -out=prod-saynow.tfplan
+AWS_PROFILE=prod-saynow terraform apply prod-saynow.tfplan
+```
+
+Because the EC2 instance already exists, patch the current systemd unit through SSM Run Command so the live instance also reads `/opt/saynow/.env.prod`.
+
+- [x] **Step 6: Commit and push Parameter Store change**
+
+```bash
+git add AGENTS.md README.md data.tf variables.tf iam.tf user_data.sh.tftpl outputs.tf environments/prod-saynow.tfvars.example docs/backend-deploy-github-actions.md docs/superpowers/plans/2026-05-07-ec2-mvp-infra.md
+git commit -m "feat: Parameter Store 환경변수 관리 추가"
+git push origin main
+```
+
+---
+
 ## Out of Scope for MVP
 
 - ALB, HTTPS 인증서, Route 53 도메인

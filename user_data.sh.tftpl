@@ -2,13 +2,16 @@
 set -euo pipefail
 
 dnf update -y
-dnf install -y java-21-amazon-corretto-headless
+dnf install -y java-21-amazon-corretto-headless awscli
 
 id saynow >/dev/null 2>&1 || useradd --system --home-dir /opt/saynow --shell /sbin/nologin saynow
 
 mkdir -p /opt/saynow
 chown saynow:saynow /opt/saynow
 chmod 755 /opt/saynow
+touch /opt/saynow/.env.prod
+chown root:saynow /opt/saynow/.env.prod
+chmod 640 /opt/saynow/.env.prod
 
 cat >/etc/systemd/system/${service_name}.service <<SERVICE
 [Unit]
@@ -20,6 +23,7 @@ Wants=network-online.target
 User=saynow
 Group=saynow
 WorkingDirectory=/opt/saynow
+EnvironmentFile=-/opt/saynow/.env.prod
 Environment=SERVER_PORT=${app_port}
 ExecStart=/usr/bin/java -jar /opt/saynow/app.jar
 SuccessExitStatus=143

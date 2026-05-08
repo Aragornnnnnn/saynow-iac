@@ -35,3 +35,34 @@ Do not commit real `*.tfvars`, Terraform state, or plan files. Commit `.terrafor
 The backend EC2 instance uses an Elastic IP so `backend_public_ip`, `backend_public_dns`, `backend_app_url`, and `backend_ssh_command` stay stable across instance stop/start cycles.
 
 Do not leave allocated Elastic IPs unattached. AWS charges for public IPv4 usage, and idle Elastic IPs can create avoidable cost.
+
+## Production Environment Variables
+
+Production application environment variables are stored in AWS Systems Manager Parameter Store under `/saynow/prod`.
+
+Use `SecureString` for secrets and keep the standard tier unless a value is larger than the standard tier limit.
+
+```bash
+AWS_PROFILE=prod-saynow aws ssm put-parameter \
+  --name /saynow/prod/DB_URL \
+  --type SecureString \
+  --value '<prod-db-url>' \
+  --tier Standard \
+  --overwrite
+
+AWS_PROFILE=prod-saynow aws ssm put-parameter \
+  --name /saynow/prod/DB_USERNAME \
+  --type SecureString \
+  --value '<prod-db-username>' \
+  --tier Standard \
+  --overwrite
+
+AWS_PROFILE=prod-saynow aws ssm put-parameter \
+  --name /saynow/prod/DB_PASSWORD \
+  --type SecureString \
+  --value '<prod-db-password>' \
+  --tier Standard \
+  --overwrite
+```
+
+Do not manage real secret values with Terraform. Terraform state can retain parameter values when `aws_ssm_parameter` resources are used.
