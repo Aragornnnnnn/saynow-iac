@@ -29,6 +29,7 @@
 - 실제 `*.tfvars`, Terraform state, plan 파일, 비밀 값, 접근 키는 커밋하지 않는다.
 - production Terraform state는 S3 backend `saynow-prod-terraform-state-494873119837/prod/saynow-iac/terraform.tfstate`와 S3 native lockfile을 사용한다.
 - 애플리케이션 환경변수는 환경별 `/saynow/{environment}` 경로의 SSM Parameter Store `SecureString`으로 관리하고, 실제 secret 값을 Terraform 리소스로 만들지 않는다.
+- GitHub-hosted runner SSH 배포는 `Aragornnnnnn/saynow-be` Actions OIDC role로 실행 중인 runner IP만 `/32`로 임시 허용하고 종료 시 회수한다.
 - `terraform apply`, `terraform destroy`, 리소스 삭제/교체처럼 운영 인프라에 영향을 주는 작업은 실행 전에 사용자 확인을 받는다.
 
 ## 문서

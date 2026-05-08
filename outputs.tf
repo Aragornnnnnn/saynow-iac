@@ -37,3 +37,13 @@ output "backend_parameter_store_path" {
   description = "SSM Parameter Store path used for production environment variables."
   value       = var.parameter_store_path
 }
+
+output "backend_security_group_id" {
+  description = "Security group id for the Saynow backend EC2 instance."
+  value       = aws_security_group.backend.id
+}
+
+output "backend_github_actions_deploy_role_arn" {
+  description = "GitHub Actions OIDC role ARN for backend deployment."
+  value       = aws_iam_role.github_actions_backend_deploy.arn
+}
