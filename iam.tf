@@ -32,6 +32,7 @@ data "aws_iam_policy_document" "backend_parameter_store_read" {
     ]
 
     resources = [
+      "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter${var.parameter_store_path}",
       "arn:aws:ssm:${var.aws_region}:${data.aws_caller_identity.current.account_id}:parameter${var.parameter_store_path}/*",
     ]
   }

@@ -870,6 +870,7 @@ ssm:GetParametersByPath
 Scope the resource to:
 
 ```text
+arn:aws:ssm:ap-northeast-2:494873119837:parameter/saynow/prod
 arn:aws:ssm:ap-northeast-2:494873119837:parameter/saynow/prod/*
 ```
 
