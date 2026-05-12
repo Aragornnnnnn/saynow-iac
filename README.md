@@ -51,6 +51,21 @@ production 변경 작업에서 local state로 되돌리지 않습니다.
 
 할당된 Elastic IP를 미연결 상태로 방치하지 않습니다. AWS는 public IPv4 사용량에 과금하며, idle Elastic IP는 불필요한 비용을 만들 수 있습니다.
 
+## Backend HTTPS
+
+백엔드 public endpoint는 `https://saynow.p-e.kr`입니다. 도메인의 A record는 `terraform output -raw backend_public_ip` 값으로 관리합니다.
+
+백엔드 EC2 보안그룹은 public application traffic으로 TCP `80`과 `443`만 엽니다. Spring Boot는 기존처럼 EC2 내부 `8080` 포트에서 실행하고, Caddy가 `saynow.p-e.kr` 요청을 `127.0.0.1:8080`으로 reverse proxy합니다.
+
+`user_data.sh.tftpl`은 새로 생성되는 백엔드 EC2에 Caddy를 설치하고 `/etc/caddy/Caddyfile`을 작성합니다. 이미 실행 중인 EC2에는 user data가 자동 재실행되지 않으므로, 기존 인스턴스에는 동일한 Caddy 설정을 수동으로 적용하거나 인스턴스 교체 계획을 별도로 세웁니다.
+
+Terraform 변경 적용 후 확인합니다.
+
+```bash
+curl -I http://saynow.p-e.kr
+curl -I https://saynow.p-e.kr
+```
+
 ## Production 환경변수
 
 애플리케이션 환경변수는 AWS Systems Manager Parameter Store에 `/saynow/{environment}` 경로 규칙으로 저장합니다.

@@ -14,8 +14,8 @@ output "backend_public_dns" {
 }
 
 output "backend_app_url" {
-  description = "Direct MVP URL for the Spring Boot backend."
-  value       = "http://${aws_eip.backend.public_ip}:${var.app_port}"
+  description = "Public HTTPS URL for the Saynow backend."
+  value       = "https://${var.backend_domain_name}"
 }
 
 output "backend_ssh_command" {

@@ -1,9 +1,12 @@
 aws_region              = "ap-northeast-2"
 project_name            = "saynow"
 environment             = "prod"
+backend_domain_name     = "saynow.p-e.kr"
 instance_type           = "t3.micro"
 app_port                = 8080
 app_allowed_cidr_blocks = ["0.0.0.0/0"]
+http_allowed_cidr_blocks  = ["0.0.0.0/0"]
+https_allowed_cidr_blocks = ["0.0.0.0/0"]
 ssh_allowed_cidr_blocks = []
 root_volume_size        = 30
 parameter_store_path    = "/saynow/prod"

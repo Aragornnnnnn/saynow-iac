@@ -124,6 +124,13 @@ resource "aws_instance" "ai_backend" {
   tags = {
     Name = "${local.name_prefix}-ai-backend"
   }
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+      user_data,
+    ]
+  }
 }
 
 resource "aws_eip" "ai_backend" {

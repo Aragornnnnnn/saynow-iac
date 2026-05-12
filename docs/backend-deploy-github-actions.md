@@ -2,6 +2,8 @@
 
 The EC2 instance created by this IAC repository runs a systemd service named `saynow-backend`.
 
+Public backend traffic uses `https://saynow.p-e.kr`. Caddy runs on the EC2 instance, terminates TLS on ports `80` and `443`, and reverse proxies to the Spring Boot service on `127.0.0.1:8080`.
+
 ## Required GitHub Secrets in the backend repository
 
 - `EC2_SSH_KEY`: private key matching `ssh_public_key` in `environments/prod-saynow.tfvars`
@@ -17,6 +19,8 @@ The EC2 instance created by this IAC repository runs a systemd service named `sa
 - `AWS_REGION`: `ap-northeast-2`
 - `AWS_ROLE_ARN`: value from `terraform output -raw backend_github_actions_deploy_role_arn`
 - `EC2_SECURITY_GROUP_ID`: value from `terraform output -raw backend_security_group_id`
+
+`EC2_HOST` remains the Elastic IP for SSH and file upload. Do not replace it with `saynow.p-e.kr` unless DNS, SSH host key handling, and deployment rollback behavior have been reviewed.
 
 ## Production environment variables
 
@@ -159,4 +163,6 @@ jobs:
 ```bash
 ssh -i ~/.ssh/saynow-prod-deploy ec2-user@"$(terraform output -raw backend_public_ip)" \
   'sudo systemctl is-active saynow-backend'
+
+curl -I https://saynow.p-e.kr
 ```
