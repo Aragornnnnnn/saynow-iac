@@ -16,11 +16,19 @@ resource "aws_security_group" "backend" {
   }
 
   ingress {
-    description = "Spring Boot application traffic"
-    from_port   = var.app_port
-    to_port     = var.app_port
+    description = "HTTP traffic for Caddy redirects and certificate issuance"
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = var.app_allowed_cidr_blocks
+    cidr_blocks = var.http_allowed_cidr_blocks
+  }
+
+  ingress {
+    description = "HTTPS traffic for Caddy reverse proxy"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = var.https_allowed_cidr_blocks
   }
 
   egress {

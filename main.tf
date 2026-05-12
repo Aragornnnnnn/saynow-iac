@@ -5,6 +5,10 @@ resource "aws_key_pair" "deploy" {
   tags = {
     Name = "${local.name_prefix}-deploy-key"
   }
+
+  lifecycle {
+    ignore_changes = [public_key]
+  }
 }
 
 resource "aws_instance" "backend" {
@@ -17,8 +21,9 @@ resource "aws_instance" "backend" {
   key_name                    = aws_key_pair.deploy.key_name
 
   user_data = templatefile("${path.module}/user_data.sh.tftpl", {
-    app_port     = var.app_port
-    service_name = local.service_name
+    app_port            = var.app_port
+    backend_domain_name = var.backend_domain_name
+    service_name        = local.service_name
   })
 
   metadata_options {
@@ -35,6 +40,13 @@ resource "aws_instance" "backend" {
 
   tags = {
     Name = "${local.name_prefix}-backend"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ami,
+      user_data,
+    ]
   }
 }
 
